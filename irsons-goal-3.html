@@ -1,0 +1,923 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>Irson's Goal</title>
+
+    <!-- iPhone app settings -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="Irson's Goal" />
+    <meta name="theme-color" content="#0a1f44" />
+    <link rel="apple-touch-icon" href="icons/icon-180.png" />
+    <link rel="icon" href="icons/icon-192.png" />
+    <link rel="manifest" href="manifest.json" />
+
+    <style>
+      :root {
+        --navy: #0a1f44;
+        --blue: #1c3d7a;
+        --red: #b22234;
+        --bg: #eef2f9;
+        --card: #ffffff;
+        --text: #1a1a1a;
+        --muted: #5b6475;
+        --soft: #f2f5fb;
+        --line: #dde3ee;
+        --accent: #1c3d7a;
+        --heading: #0a1f44;
+        --good: #1f8a4c;
+        --safe-top: env(safe-area-inset-top, 0px);
+        --safe-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg: #0b1222;
+          --card: #151e33;
+          --text: #e8ecf4;
+          --muted: #9aa5ba;
+          --soft: #1c2740;
+          --line: #26324d;
+          --accent: #7ea2e6;
+          --heading: #ffffff;
+          --good: #4cc27f;
+        }
+      }
+      :root[data-theme="dark"] {
+        --bg: #0b1222;
+        --card: #151e33;
+        --text: #e8ecf4;
+        --muted: #9aa5ba;
+        --soft: #1c2740;
+        --line: #26324d;
+        --accent: #7ea2e6;
+        --heading: #ffffff;
+        --good: #4cc27f;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        -webkit-tap-highlight-color: transparent;
+      }
+      html,
+      body {
+        background: var(--bg);
+      }
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+          Arial, sans-serif;
+        color: var(--text);
+        line-height: 1.6;
+        min-height: 100vh;
+        padding-bottom: calc(84px + var(--safe-bottom));
+      }
+      button {
+        font: inherit;
+        color: inherit;
+        border: none;
+        background: none;
+        cursor: pointer;
+      }
+
+      /* Header */
+      .hero {
+        background: linear-gradient(160deg, var(--navy) 0%, var(--blue) 55%, var(--red) 100%);
+        color: #fff;
+        padding: calc(20px + var(--safe-top)) 20px 56px;
+        text-align: center;
+      }
+      .hero-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 760px;
+        margin: 0 auto 12px;
+      }
+      .icon-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.15);
+        font-size: 1.1rem;
+        display: grid;
+        place-items: center;
+      }
+      .hero h1 {
+        font-size: 2rem;
+        letter-spacing: -0.5px;
+      }
+      .hero .date {
+        opacity: 0.85;
+        font-size: 0.95rem;
+      }
+
+      main {
+        max-width: 760px;
+        margin: -36px auto 0;
+        padding: 0 16px;
+      }
+
+      /* Stats */
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+      .stat {
+        background: var(--card);
+        border-radius: 16px;
+        padding: 14px 8px;
+        text-align: center;
+        box-shadow: 0 6px 20px rgba(10, 31, 68, 0.12);
+      }
+      .stat b {
+        display: block;
+        font-size: 1.5rem;
+        color: var(--heading);
+        font-variant-numeric: tabular-nums;
+      }
+      .stat span {
+        font-size: 0.78rem;
+        color: var(--muted);
+      }
+
+      .card {
+        background: var(--card);
+        border-radius: 18px;
+        padding: 20px 18px;
+        margin-bottom: 14px;
+        box-shadow: 0 4px 16px rgba(10, 31, 68, 0.08);
+      }
+      .card h2 {
+        font-size: 1.1rem;
+        color: var(--red);
+        margin-bottom: 10px;
+      }
+      :root[data-theme="dark"] .card h2 {
+        color: #ff7b8a;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) .card h2 {
+          color: #ff7b8a;
+        }
+      }
+      .muted {
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      .primary {
+        display: block;
+        width: 100%;
+        padding: 15px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, var(--blue), var(--red));
+        color: #fff;
+        font-weight: 700;
+        font-size: 1.05rem;
+        margin-top: 12px;
+      }
+      .primary:active,
+      .ghost:active {
+        transform: scale(0.98);
+      }
+      .ghost {
+        padding: 10px 14px;
+        border-radius: 12px;
+        background: var(--soft);
+        font-weight: 600;
+        font-size: 0.92rem;
+      }
+
+      /* Goal list */
+      .goal {
+        display: flex;
+        gap: 12px;
+        border-left: 4px solid var(--accent);
+        padding: 4px 0 4px 12px;
+        margin-bottom: 16px;
+      }
+      .goal .emoji {
+        font-size: 1.4rem;
+        line-height: 1.5;
+      }
+      .goal p {
+        flex: 1;
+      }
+      .goal:last-child {
+        margin-bottom: 0;
+      }
+
+      /* Read mode */
+      .reader {
+        position: fixed;
+        inset: 0;
+        z-index: 50;
+        background: linear-gradient(160deg, var(--navy) 0%, var(--blue) 55%, var(--red) 100%);
+        color: #fff;
+        display: none;
+        flex-direction: column;
+        padding: calc(16px + var(--safe-top)) 20px calc(20px + var(--safe-bottom));
+      }
+      .reader.open {
+        display: flex;
+      }
+      .reader-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .bar {
+        height: 6px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 3px;
+        margin: 14px 0;
+        overflow: hidden;
+      }
+      .bar i {
+        display: block;
+        height: 100%;
+        background: #fff;
+        border-radius: 3px;
+        transition: width 0.3s;
+      }
+      .reader-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        gap: 18px;
+        max-width: 620px;
+        margin: 0 auto;
+        width: 100%;
+      }
+      .reader-body .big-emoji {
+        font-size: 3.4rem;
+      }
+      .reader-body p {
+        font-size: 1.35rem;
+        font-weight: 600;
+        line-height: 1.55;
+      }
+      .reader-actions {
+        display: flex;
+        gap: 10px;
+        max-width: 620px;
+        margin: 0 auto;
+        width: 100%;
+      }
+      .reader-actions button {
+        flex: 1;
+        padding: 16px;
+        border-radius: 14px;
+        font-weight: 700;
+        font-size: 1.05rem;
+        background: rgba(255, 255, 255, 0.16);
+      }
+      .reader-actions .amin {
+        background: #fff;
+        color: var(--navy);
+        flex: 2;
+      }
+
+      /* Study tracker */
+      .subject {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .subject:last-child {
+        border-bottom: none;
+      }
+      .subject .info {
+        flex: 1;
+        min-width: 0;
+      }
+      .subject .name {
+        font-weight: 700;
+      }
+      .subject .meta {
+        font-size: 0.82rem;
+        color: var(--muted);
+        font-variant-numeric: tabular-nums;
+      }
+      .subject .track {
+        height: 6px;
+        background: var(--soft);
+        border-radius: 3px;
+        margin-top: 6px;
+        overflow: hidden;
+      }
+      .subject .track i {
+        display: block;
+        height: 100%;
+        background: linear-gradient(90deg, var(--blue), var(--red));
+        border-radius: 3px;
+      }
+      .subject .add {
+        flex-shrink: 0;
+        padding: 10px 12px;
+        border-radius: 12px;
+        background: var(--soft);
+        font-weight: 700;
+        font-size: 0.9rem;
+        color: var(--accent);
+      }
+      .week {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 6px;
+        align-items: end;
+        height: 110px;
+        margin-top: 8px;
+      }
+      .week div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        height: 100%;
+        gap: 4px;
+        font-size: 0.72rem;
+        color: var(--muted);
+      }
+      .week i {
+        display: block;
+        width: 70%;
+        max-width: 28px;
+        border-radius: 6px 6px 2px 2px;
+        background: var(--accent);
+        min-height: 3px;
+      }
+      .week .today i {
+        background: var(--red);
+      }
+
+      /* Family */
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .chip {
+        padding: 7px 12px;
+        border-radius: 999px;
+        background: var(--soft);
+        font-size: 0.92rem;
+      }
+
+      .closing p {
+        font-weight: 600;
+        color: var(--heading);
+        margin-bottom: 8px;
+      }
+      .closing p:last-child {
+        margin-bottom: 0;
+      }
+
+      /* Tab bar */
+      .tabs {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 40;
+        display: flex;
+        justify-content: space-around;
+        background: color-mix(in srgb, var(--card) 88%, transparent);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-top: 1px solid var(--line);
+        padding: 6px 4px calc(6px + var(--safe-bottom));
+      }
+      .tabs button {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 0.72rem;
+        color: var(--muted);
+        padding: 6px 0;
+      }
+      .tabs button .ti {
+        font-size: 1.35rem;
+        line-height: 1.2;
+        filter: grayscale(1);
+        opacity: 0.7;
+      }
+      .tabs button.active {
+        color: var(--accent);
+        font-weight: 700;
+      }
+      .tabs button.active .ti {
+        filter: none;
+        opacity: 1;
+      }
+      .page {
+        display: none;
+      }
+      .page.active {
+        display: block;
+      }
+
+      /* Install hint + toast */
+      .hint {
+        display: none;
+        gap: 10px;
+        align-items: flex-start;
+      }
+      .hint.show {
+        display: flex;
+      }
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: calc(96px + var(--safe-bottom));
+        transform: translateX(-50%) translateY(20px);
+        background: var(--navy);
+        color: #fff;
+        padding: 10px 18px;
+        border-radius: 999px;
+        font-weight: 600;
+        font-size: 0.92rem;
+        opacity: 0;
+        pointer-events: none;
+        transition: 0.25s;
+        z-index: 60;
+        max-width: calc(100% - 32px);
+        text-align: center;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+      .row {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero-top">
+        <button class="icon-btn" id="themeBtn" aria-label="Ganti tema">🌓</button>
+        <div class="flag" style="font-size: 2rem">🇺🇸</div>
+        <button class="icon-btn" id="shareBtn" aria-label="Bagikan">📤</button>
+      </div>
+      <h1>Irson’s Goal</h1>
+      <div class="date" id="today"></div>
+    </header>
+
+    <main>
+      <div class="stats">
+        <div class="stat"><b id="statStreak">0</b><span>🔥 hari berturut</span></div>
+        <div class="stat"><b id="statDays">0</b><span>🙏 total hari doa</span></div>
+        <div class="stat"><b id="statHours">0</b><span>📚 jam belajar</span></div>
+      </div>
+
+      <!-- PAGE: Hari Ini -->
+      <section class="page active" id="page-home">
+        <div class="card hint" id="installHint">
+          <span style="font-size: 1.6rem">📲</span>
+          <div style="flex: 1">
+            <b>Pasang di iPhone</b>
+            <p class="muted">
+              Di Safari, tap tombol <b>Share</b> (kotak dengan panah ke atas),
+              lalu pilih <b>Add to Home Screen</b>. Aplikasi ini bisa dibuka
+              tanpa internet.
+            </p>
+          </div>
+          <button class="icon-btn" style="background: var(--soft)" id="hintClose" aria-label="Tutup">✕</button>
+        </div>
+
+        <div class="card">
+          <h2>Doa Hari Ini</h2>
+          <p class="muted" id="todayStatus"></p>
+          <button class="primary" id="startRead">🙏 Mulai Baca Goal</button>
+        </div>
+
+        <div class="card">
+          <h2>Belajar Hari Ini</h2>
+          <p class="muted" id="studyToday"></p>
+          <div class="week" id="week"></div>
+        </div>
+
+        <div class="card closing">
+          <p>Aku mau yang ini bisa jadi real di masa depan di Irson’s Goal.</p>
+          <p>Yang ini semuanya 100% benar banget di Irson’s Goal.</p>
+          <p>Papi, mami, aku, dan Kelly semuanya ingat banget di Irson’s Goal.</p>
+          <p>Aku mau impian ini bisa tercapai di Irson’s Goal.</p>
+        </div>
+      </section>
+
+      <!-- PAGE: Goal -->
+      <section class="page" id="page-goals">
+        <div class="card">
+          <h2>Semua Goal</h2>
+          <div id="goalList"></div>
+        </div>
+        <div class="card">
+          <h2>Negara yang paling bagus untuk Irson’s Goal adalah:</h2>
+          <p style="font-size: 1.2rem; font-weight: 700">🇺🇸 United States</p>
+        </div>
+      </section>
+
+      <!-- PAGE: Belajar -->
+      <section class="page" id="page-study">
+        <div class="card">
+          <h2>Aku mau fokus belajar</h2>
+          <p class="muted" style="margin-bottom: 4px">
+            Tap <b>+15m</b> setiap selesai belajar 15 menit. Target: 100 jam per
+            pelajaran.
+          </p>
+          <div id="subjects"></div>
+        </div>
+        <div class="card">
+          <p>
+            Aku mau selesai belajar Web Development, English, Mandarin Chinese,
+            AI, Video Editing, dan Social Media, biar aku bisa cari uang lebih
+            banyak lagi.
+          </p>
+          <p style="margin-top: 10px">
+            Aku mau kerja remote di perusahaan Amerika (United States).
+          </p>
+        </div>
+      </section>
+
+      <!-- PAGE: Keluarga -->
+      <section class="page" id="page-family">
+        <div class="card">
+          <h2>Keluarga Kita</h2>
+          <div class="chips">
+            <span class="chip">👨 Papi</span>
+            <span class="chip">👩 Mami</span>
+            <span class="chip">🙋 Irson</span>
+            <span class="chip">👧 Kelly</span>
+          </div>
+        </div>
+        <div class="card">
+          <h2>Keluarga grup Suripto</h2>
+          <div class="chips" id="suripto"></div>
+        </div>
+        <div class="card">
+          <h2>Keluarga grup Zhang</h2>
+          <div class="chips" id="zhang"></div>
+        </div>
+        <div class="card">
+          <p>
+            Kita dan semua keluarga grup Suripto &amp; Zhang tinggal di Amerika
+            (United States) selamanya, jalan-jalan di 1 negara: Amerika (United
+            States), jenguk keluarga di Amerika (United States), keliling dunia
+            di 1 negara saja, gak usah jalan-jalan ke luar negeri lagi.
+          </p>
+        </div>
+        <div class="card">
+          <h2>Pengaturan</h2>
+          <div class="row">
+            <button class="ghost" id="exportBtn">💾 Simpan backup</button>
+            <button class="ghost" id="resetBtn">🗑️ Reset data</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Read mode (full screen) -->
+    <div class="reader" id="reader" role="dialog" aria-modal="true">
+      <div class="reader-top">
+        <button class="icon-btn" id="readClose" aria-label="Tutup">✕</button>
+        <span id="readCount" style="font-weight: 700"></span>
+        <button class="icon-btn" id="readSpeak" aria-label="Bacakan">🔊</button>
+      </div>
+      <div class="bar"><i id="readBar"></i></div>
+      <div class="reader-body">
+        <div class="big-emoji" id="readEmoji"></div>
+        <p id="readText"></p>
+      </div>
+      <div class="reader-actions">
+        <button id="readPrev">←</button>
+        <button class="amin" id="readNext">Amin 🙏</button>
+      </div>
+    </div>
+
+    <nav class="tabs">
+      <button class="active" data-page="home"><span class="ti">🏠</span>Hari Ini</button>
+      <button data-page="goals"><span class="ti">⭐</span>Goal</button>
+      <button data-page="study"><span class="ti">📚</span>Belajar</button>
+      <button data-page="family"><span class="ti">👨‍👩‍👧‍👦</span>Keluarga</button>
+    </nav>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+      // ---------- Data ----------
+      const GOALS = [
+        ["👂", "Telinga aku semuanya good listening, sembuh, bisa mendengar lebih jelas, tubuh aku semuanya lengkap, sempurna, berfungsi dengan baik, dan normal."],
+        ["🇺🇸", "Tuhan sudah kasih kita tinggal di negara yang no. 1 paling bagus untuk kita adalah tinggal di Amerika (United States), gak usah pindah, gak usah pikir negara lain lagi."],
+        ["🏠", "Single, tidak ada cewek, tinggal bareng papi, mami, dan Kelly, gak usah pikir cewek lagi."],
+        ["❤️", "Aku mau mami sehat-sehat, mami bisa panjang umur, mami bisa temanin aku selamanya."],
+        ["📚", "Aku mau selesai belajar Web Development, English, Mandarin Chinese, AI, Video Editing, dan Social Media, biar aku bisa cari uang lebih banyak lagi."],
+        ["💼", "Aku mau kerja remote di perusahaan Amerika (United States)."],
+        ["🏥", "Berobat nainai di Amerika (United States), biar nainai sehat-sehat, nainai bisa panjang umur."],
+        ["🚗", "Beli mobil Tesla, biar bisa jalan-jalan keliling Amerika (United States)."],
+        ["🏡", "Beli rumah di 83-45 Vietor Avenue, Elmhurst, Queens, New York, Amerika (United States), biar kita tidak pindah rumah lagi."],
+        ["👨‍👩‍👧‍👦", "Aku mau ajak semua keluarga grup Suripto tinggal di Amerika (United States) bersama kita, kungkung, nainai, ii Su Phin, keluarga khiukhiu Anyen, keluarga ii Nelly, keluarga khiukhiu Aliong, dan keluarga ii Fifi."],
+        ["👨‍👩‍👧‍👦", "Aku mau ajak semua keluarga grup Zhang tinggal di Amerika (United States) bersama kita, popo, keluarga kuku Asni, pakpak Nyongsen, keluarga suksuk Ayin, dan keluarga kuku Kimnie."],
+        ["🌎", "Kita dan semua keluarga grup Suripto & Zhang tinggal di Amerika (United States) selamanya, jalan-jalan di 1 negara: Amerika (United States), jenguk keluarga di Amerika (United States), keliling dunia di 1 negara saja, gak usah jalan-jalan ke luar negeri lagi."],
+        ["✨", "Aku mau yang ini bisa jadi real di masa depan di Irson’s Goal. Yang ini semuanya 100% benar banget di Irson’s Goal. Aku mau impian ini bisa tercapai."],
+      ];
+      const SUBJECTS = [
+        ["web", "💻", "Web Development"],
+        ["english", "🇺🇸", "English"],
+        ["mandarin", "🇨🇳", "Mandarin Chinese"],
+        ["ai", "🤖", "AI"],
+        ["video", "🎬", "Video Editing"],
+        ["social", "📱", "Social Media"],
+      ];
+      const SURIPTO = ["Kungkung", "Nainai", "ii Su Phin", "Keluarga khiukhiu Anyen", "Keluarga ii Nelly", "Keluarga khiukhiu Aliong", "Keluarga ii Fifi"];
+      const ZHANG = ["Popo", "Keluarga kuku Asni", "Pakpak Nyongsen", "Keluarga suksuk Ayin", "Keluarga kuku Kimnie"];
+      const TARGET_MIN = 100 * 60; // 100 hours per subject
+
+      // ---------- Storage (saved on this phone) ----------
+      const KEY = "irsons-goal-data-v1";
+      const blank = () => ({ readDays: [], study: {}, theme: "auto", hideHint: false });
+      let data = blank();
+      try {
+        data = Object.assign(blank(), JSON.parse(localStorage.getItem(KEY)) || {});
+      } catch (e) {}
+      const save = () => {
+        try {
+          localStorage.setItem(KEY, JSON.stringify(data));
+        } catch (e) {}
+      };
+
+      // ---------- Helpers ----------
+      const $ = (id) => document.getElementById(id);
+      const dayKey = (d = new Date()) =>
+        `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+      const addDays = (d, n) => {
+        const x = new Date(d);
+        x.setDate(x.getDate() + n);
+        return x;
+      };
+      const fmtMin = (m) => (m >= 60 ? `${Math.floor(m / 60)}j ${m % 60}m` : `${m}m`);
+      const toast = (msg) => {
+        const t = $("toast");
+        t.textContent = msg;
+        t.classList.add("show");
+        clearTimeout(toast._t);
+        toast._t = setTimeout(() => t.classList.remove("show"), 2200);
+      };
+      const buzz = () => navigator.vibrate && navigator.vibrate(15);
+
+      function streak() {
+        const set = new Set(data.readDays);
+        let d = new Date();
+        if (!set.has(dayKey(d))) d = addDays(d, -1); // today not done yet still keeps streak
+        let n = 0;
+        while (set.has(dayKey(d))) {
+          n++;
+          d = addDays(d, -1);
+        }
+        return n;
+      }
+      const minutesOn = (key) =>
+        Object.values(data.study).reduce((s, subj) => s + (subj[key] || 0), 0);
+      const totalFor = (id) =>
+        Object.values(data.study[id] || {}).reduce((a, b) => a + b, 0);
+
+      // ---------- Render ----------
+      function render() {
+        $("today").textContent = new Date().toLocaleDateString("id-ID", {
+          weekday: "long", day: "numeric", month: "long", year: "numeric",
+        });
+
+        const doneToday = data.readDays.includes(dayKey());
+        $("statStreak").textContent = streak();
+        $("statDays").textContent = data.readDays.length;
+        const allMin = SUBJECTS.reduce((s, [id]) => s + totalFor(id), 0);
+        $("statHours").textContent = Math.floor(allMin / 60);
+
+        $("todayStatus").textContent = doneToday
+          ? "✅ Sudah baca hari ini. Hebat! Boleh baca lagi kapan saja."
+          : `Baca ${GOALS.length} goal kamu satu per satu, lalu tap Amin.`;
+        $("startRead").textContent = doneToday ? "🔁 Baca Lagi" : "🙏 Mulai Baca Goal";
+
+        const todayMin = minutesOn(dayKey());
+        $("studyToday").textContent = todayMin
+          ? `Hari ini sudah belajar ${fmtMin(todayMin)}. 7 hari terakhir:`
+          : "Belum belajar hari ini. Ayo mulai di tab Belajar! 7 hari terakhir:";
+
+        // Week chart
+        const days = [...Array(7)].map((_, i) => addDays(new Date(), i - 6));
+        const mins = days.map((d) => minutesOn(dayKey(d)));
+        const max = Math.max(60, ...mins);
+        $("week").innerHTML = days
+          .map((d, i) => `<div class="${i === 6 ? "today" : ""}" title="${fmtMin(mins[i])}">
+              <span>${mins[i] ? fmtMin(mins[i]) : ""}</span>
+              <i style="height:${(mins[i] / max) * 70}%"></i>
+              <span>${d.toLocaleDateString("id-ID", { weekday: "short" })}</span>
+            </div>`)
+          .join("");
+
+        // Subjects
+        $("subjects").innerHTML = SUBJECTS.map(([id, emoji, name]) => {
+          const total = totalFor(id);
+          const today = (data.study[id] || {})[dayKey()] || 0;
+          const pct = Math.min(100, (total / TARGET_MIN) * 100);
+          return `<div class="subject">
+              <span style="font-size:1.5rem">${emoji}</span>
+              <div class="info">
+                <div class="name">${name}</div>
+                <div class="meta">Total ${fmtMin(total)} · Hari ini ${fmtMin(today)} · ${pct.toFixed(1)}%</div>
+                <div class="track"><i style="width:${pct}%"></i></div>
+              </div>
+              <button class="add" data-add="${id}">+15m</button>
+            </div>`;
+        }).join("");
+
+        $("installHint").classList.toggle("show", !isStandalone() && isIOS() && !data.hideHint);
+      }
+
+      function renderStatic() {
+        $("goalList").innerHTML = GOALS.map(
+          ([e, t]) => `<div class="goal"><span class="emoji">${e}</span><p></p></div>`
+        ).join("");
+        $("goalList").querySelectorAll("p").forEach((p, i) => (p.textContent = GOALS[i][1]));
+        const chips = (list) => list.map((n) => `<span class="chip">${n}</span>`).join("");
+        $("suripto").innerHTML = chips(SURIPTO);
+        $("zhang").innerHTML = chips(ZHANG);
+      }
+
+      // ---------- Tabs ----------
+      document.querySelectorAll(".tabs button").forEach((b) =>
+        b.addEventListener("click", () => {
+          document.querySelectorAll(".tabs button").forEach((x) => x.classList.toggle("active", x === b));
+          document.querySelectorAll(".page").forEach((p) =>
+            p.classList.toggle("active", p.id === "page-" + b.dataset.page)
+          );
+          window.scrollTo({ top: 0 });
+          buzz();
+        })
+      );
+
+      // ---------- Study ----------
+      $("subjects").addEventListener("click", (e) => {
+        const id = e.target.dataset && e.target.dataset.add;
+        if (!id) return;
+        data.study[id] = data.study[id] || {};
+        data.study[id][dayKey()] = (data.study[id][dayKey()] || 0) + 15;
+        save();
+        render();
+        buzz();
+        toast("+15 menit 💪 Terus semangat!");
+      });
+
+      // ---------- Read mode ----------
+      let idx = 0;
+      const synth = window.speechSynthesis;
+      function showGoal() {
+        const [e, t] = GOALS[idx];
+        $("readEmoji").textContent = e;
+        $("readText").textContent = t;
+        $("readCount").textContent = `${idx + 1} / ${GOALS.length}`;
+        $("readBar").style.width = `${((idx + 1) / GOALS.length) * 100}%`;
+        $("readPrev").style.visibility = idx ? "visible" : "hidden";
+        $("readNext").textContent = idx === GOALS.length - 1 ? "Selesai ✅" : "Amin 🙏";
+        if (synth) synth.cancel();
+      }
+      function speak() {
+        if (!synth) return toast("Suara tidak tersedia di browser ini");
+        synth.cancel();
+        const u = new SpeechSynthesisUtterance(GOALS[idx][1]);
+        u.lang = "id-ID";
+        u.rate = 0.95;
+        synth.speak(u);
+      }
+      function closeReader() {
+        if (synth) synth.cancel();
+        $("reader").classList.remove("open");
+      }
+      $("startRead").addEventListener("click", () => {
+        idx = 0;
+        showGoal();
+        $("reader").classList.add("open");
+      });
+      $("readClose").addEventListener("click", closeReader);
+      $("readSpeak").addEventListener("click", speak);
+      $("readPrev").addEventListener("click", () => {
+        if (idx > 0) idx--;
+        showGoal();
+      });
+      $("readNext").addEventListener("click", () => {
+        buzz();
+        if (idx < GOALS.length - 1) {
+          idx++;
+          showGoal();
+          return;
+        }
+        if (!data.readDays.includes(dayKey())) data.readDays.push(dayKey());
+        save();
+        closeReader();
+        render();
+        toast(`🎉 Selesai! ${streak()} hari berturut-turut`);
+      });
+      // Swipe left/right in read mode
+      let sx = null;
+      $("reader").addEventListener("touchstart", (e) => (sx = e.touches[0].clientX), { passive: true });
+      $("reader").addEventListener("touchend", (e) => {
+        if (sx === null) return;
+        const dx = e.changedTouches[0].clientX - sx;
+        sx = null;
+        if (dx < -60 && idx < GOALS.length - 1) { idx++; showGoal(); }
+        else if (dx > 60 && idx > 0) { idx--; showGoal(); }
+      });
+
+      // ---------- Theme ----------
+      const applyTheme = () => {
+        if (data.theme === "auto") document.documentElement.removeAttribute("data-theme");
+        else document.documentElement.setAttribute("data-theme", data.theme);
+      };
+      $("themeBtn").addEventListener("click", () => {
+        const order = ["auto", "light", "dark"];
+        data.theme = order[(order.indexOf(data.theme) + 1) % 3];
+        save();
+        applyTheme();
+        toast({ auto: "Tema: otomatis", light: "Tema: terang ☀️", dark: "Tema: gelap 🌙" }[data.theme]);
+      });
+
+      // ---------- Share ----------
+      $("shareBtn").addEventListener("click", async () => {
+        const info = { title: "Irson's Goal", text: "Irson's Goal 🇺🇸", url: location.href };
+        try {
+          if (navigator.share) await navigator.share(info);
+          else {
+            await navigator.clipboard.writeText(location.href);
+            toast("Link disalin 📋");
+          }
+        } catch (e) {}
+      });
+
+      // ---------- Backup & reset ----------
+      $("exportBtn").addEventListener("click", () => {
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = `irsons-goal-backup-${dayKey()}.json`;
+        a.click();
+        setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+      });
+      $("resetBtn").addEventListener("click", () => {
+        if (!confirm("Hapus semua progress (doa & belajar)?")) return;
+        const theme = data.theme;
+        data = blank();
+        data.theme = theme;
+        save();
+        render();
+        toast("Data direset");
+      });
+
+      // ---------- iPhone install hint ----------
+      function isIOS() {
+        return /iphone|ipad|ipod/i.test(navigator.userAgent) ||
+          (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+      }
+      function isStandalone() {
+        return window.navigator.standalone === true ||
+          window.matchMedia("(display-mode: standalone)").matches;
+      }
+      $("hintClose").addEventListener("click", () => {
+        data.hideHint = true;
+        save();
+        render();
+      });
+
+      // ---------- Start ----------
+      applyTheme();
+      renderStatic();
+      render();
+      // Refresh when the app comes back to the screen (e.g. next day)
+      document.addEventListener("visibilitychange", () => !document.hidden && render());
+
+      // Offline support
+      if ("serviceWorker" in navigator && location.protocol !== "file:") {
+        navigator.serviceWorker.register("sw.js").catch(() => {});
+      }
+    </script>
+  </body>
+</html>

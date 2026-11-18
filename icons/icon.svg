@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0a1f44"/>
+      <stop offset="0.55" stop-color="#1c3d7a"/>
+      <stop offset="1" stop-color="#b22234"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#g)"/>
+  <g fill="#ffffff">
+    <polygon points="256,92 284,178 374,178 301,231 329,317 256,264 183,317 211,231 138,178 228,178"/>
+  </g>
+  <text x="256" y="430" font-family="Helvetica, Arial, sans-serif" font-size="96" font-weight="700" fill="#ffffff" text-anchor="middle">GOAL</text>
+</svg>
